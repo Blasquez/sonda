@@ -1,0 +1,1622 @@
+{
+  "openapi": "3.1.0",
+  "x-stoplight": {
+    "id": "9savkvyrwb7jd"
+  },
+  "info": {
+    "title": "Probes Management",
+    "version": "1.0",
+    "summary": "In order to manager probes that has landed at some planets",
+    "contact": {
+      "name": "Diego Blasquez",
+      "email": "dsblasquez@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api"
+    }
+  ],
+  "paths": {
+    "/planets": {
+      "get": {
+        "summary": "Get Planets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/planet"
+                  }
+                },
+                "examples": {
+                  "Planet List": {
+                    "value": [
+                      {
+                        "id": "xxx-xxx-xxx-xxx",
+                        "width": 10,
+                        "height": 10,
+                        "probeQuantities": 3
+                      },
+                      {
+                        "id": "yyy-yyy-yyy-yyy",
+                        "width": 5,
+                        "height": 10,
+                        "probeQuantities": 1
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-planets",
+        "description": "Retrieves a list of planets",
+        "tags": [
+          "planets"
+        ]
+      },
+      "post": {
+        "summary": "Create Planet",
+        "operationId": "post-planets",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "The planet identification has created"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                },
+                "examples": {
+                  "Planet 10x10 created": {
+                    "value": {
+                      "id": "xxx-xxx-xxx-xxx"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The endpoint to retrieve the planet by id"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The keyId value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new planet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/planet-create"
+              },
+              "examples": {
+                "Planet 10x10": {
+                  "value": {
+                    "width": 10,
+                    "height": 10
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "planets"
+        ]
+      },
+      "parameters": []
+    },
+    "/planets/{planetId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "planetId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Planet By ID",
+        "tags": [
+          "planets"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/planet"
+                },
+                "examples": {
+                  "Planet 10x10": {
+                    "value": {
+                      "id": "xxx-xxx-xxx-xxx",
+                      "width": 10,
+                      "height": 10,
+                      "probeQuantities": 3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Planet not found": {
+                    "value": {
+                      "message": "Planet with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-planets-planetId",
+        "description": "Retrieves a planet by id"
+      },
+      "put": {
+        "summary": "Update Planet",
+        "operationId": "put-planets-planetId",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Planet not found": {
+                    "value": {
+                      "message": "Planet with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Updates a planet by ID",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/planet-update"
+              },
+              "examples": {
+                "Planet 10x5": {
+                  "value": {
+                    "width": 10,
+                    "height": 5
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        }
+      },
+      "delete": {
+        "summary": "Delete Planet",
+        "operationId": "delete-planets-planetId",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Planet not found": {
+                    "value": {
+                      "message": "Planet with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Deletes a planet"
+      }
+    },
+    "/planets/{planetId}/probes": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "planetId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Probes by PlanetId",
+        "tags": [
+          "planets",
+          "probes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/probe"
+                  }
+                },
+                "examples": {
+                  "Probes": {
+                    "value": [
+                      {
+                        "id": "xxx-xxx-xxx-xxx",
+                        "positionX": 3,
+                        "positionY": 4,
+                        "direction": "N"
+                      },
+                      {
+                        "id": "yyy-yyy-yyy-yyy",
+                        "positionX": 5,
+                        "positionY": 5,
+                        "direction": "E"
+                      },
+                      {
+                        "id": "zzz-zzz-zzz-zzz",
+                        "positionX": 6,
+                        "positionY": 2,
+                        "direction": "E"
+                      }
+                    ]
+                  },
+                  "No probes": {
+                    "value": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Planet not found": {
+                    "value": {
+                      "message": "Planet with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-planets-planetId-probes",
+        "description": "Retrieves all probes of a planet"
+      }
+    },
+    "/planets/{planetId}/probes/{probeId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "planetId",
+          "in": "path",
+          "required": true,
+          "description": "The planet that the probe will be moved"
+        },
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "probeId",
+          "in": "path",
+          "required": true,
+          "description": "The probe id to be moved"
+        }
+      ],
+      "put": {
+        "summary": "Update probe location",
+        "operationId": "put-planets-planetId-probes-probeId",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Planet not found": {
+                    "value": {
+                      "message": "Planet with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  },
+                  "Probe not found": {
+                    "value": {
+                      "message": "Probe with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "In order to move a probe to another planet and the coordinates",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/probe-create"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/planets/probes": {
+      "post": {
+        "summary": "",
+        "operationId": "post-probes",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The endpoint to retrieve all probes of a planet"
+              }
+            }
+          }
+        },
+        "description": "Create a list of probes and the planet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "planet": {
+                    "$ref": "#/components/schemas/planet-create"
+                  },
+                  "probes": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/probe-create"
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "planet&Probes": {
+                  "value": {
+                    "planet": {
+                      "width": 10,
+                      "height": 10
+                    },
+                    "probes": [
+                      {
+                        "positionX": 5,
+                        "positionY": 7,
+                        "direction": "N",
+                        "commands": "LMLMLMLMM"
+                      },
+                      {
+                        "positionX": 2,
+                        "positionY": 8,
+                        "direction": "E",
+                        "commands": "MMRMMRMRRM"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "planets",
+          "probes"
+        ]
+      },
+      "parameters": []
+    },
+    "/probes/{probeId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "probeId",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Get Probe by ID",
+        "tags": [
+          "probes"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/probe-read"
+                },
+                "examples": {
+                  "Probe": {
+                    "value": {
+                      "id": "xxx-xxx-xxx-xxxx",
+                      "positionX": 5,
+                      "positionY": 5,
+                      "direction": "N",
+                      "planet": {
+                        "id": "zzz-zzz-zzz-zzz",
+                        "width": 10,
+                        "height": 10
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Probe not found": {
+                    "value": {
+                      "message": "Probe with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-probes-probeId",
+        "description": "Retrieves a probe by id"
+      },
+      "put": {
+        "summary": "",
+        "operationId": "put-probes-probeId",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Probe not found": {
+                    "value": {
+                      "message": "Probe with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "probes"
+        ],
+        "description": "Updates a probe by ID and don't move it to another planet",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/probe-update"
+              },
+              "examples": {
+                "probe updated": {
+                  "value": {
+                    "commands": "MMRMMRMRRM"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Probe",
+        "operationId": "delete-probes-probeId",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Probe not found": {
+                    "value": {
+                      "message": "Probe with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "probes"
+        ],
+        "description": "Deletes a probe"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "planet-create": {
+        "title": "planet-request",
+        "x-stoplight": {
+          "id": "d2bofmr2gb15x"
+        },
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "integer",
+            "description": "The size of X axis of the cartesian plane"
+          },
+          "height": {
+            "type": "integer",
+            "description": "The size of Y axis of the cartesian plane"
+          }
+        },
+        "required": [
+          "width",
+          "height"
+        ],
+        "description": "Palnet-request Model being used to create a new planet or update a stored planet"
+      },
+      "planet-update": {
+        "title": "planet-request",
+        "x-stoplight": {
+          "id": "d2bofmr2gb15x"
+        },
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "integer",
+            "description": "The size of X axis of the cartesian plane"
+          },
+          "height": {
+            "type": "integer",
+            "description": "The size of Y axis of the cartesian plane"
+          }
+        },
+        "required": [
+          "width",
+          "height"
+        ],
+        "description": "Palnet-request Model being used to create a new planet or update a stored planet"
+      },
+      "planet": {
+        "title": "planet",
+        "x-stoplight": {
+          "id": "qh1nphn41g1eg"
+        },
+        "type": "object",
+        "description": "Palnet Model being used to retrive a list os planets or a single planet",
+        "examples": [],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The planet identification"
+          },
+          "width": {
+            "type": "integer",
+            "description": "The size of X axis of the cartesian plane"
+          },
+          "height": {
+            "description": "The size of Y axis of the cartesian plane",
+            "type": "integer"
+          },
+          "probeQuantities": {
+            "type": "integer",
+            "description": "The number os probes have landed at the planet"
+          }
+        },
+        "required": [
+          "id",
+          "width",
+          "height",
+          "probeQuantities"
+        ]
+      },
+      "planet-read": {
+        "title": "planet",
+        "x-stoplight": {
+          "id": "qh1nphn41g1eg"
+        },
+        "type": "object",
+        "description": "Palnet Model being used to retrive a list os planets or a single planet",
+        "examples": [],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The planet identification"
+          },
+          "width": {
+            "type": "integer",
+            "description": "The size of X axis of the cartesian plane"
+          },
+          "height": {
+            "description": "The size of Y axis of the cartesian plane",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "width",
+          "height"
+        ]
+      },
+      "probe-create": {
+        "title": "probe-request",
+        "x-stoplight": {
+          "id": "2jckklf06yu8h"
+        },
+        "type": "object",
+        "description": "Probe-request Model being used to create a new probe or update a stored probe",
+        "properties": {
+          "positionX": {
+            "type": "integer",
+            "description": "The current position of probe at the X axis"
+          },
+          "positionY": {
+            "type": "integer",
+            "description": "The current position of probe at the Y axis"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "N",
+              "E",
+              "S",
+              "W"
+            ],
+            "description": "The current direction according the rose display"
+          },
+          "commands": {
+            "type": "string",
+            "description": "The commands to move the probe at the planet"
+          }
+        },
+        "required": [
+          "positionX",
+          "positionY",
+          "direction"
+        ]
+      },
+      "probe-update": {
+        "title": "probe-request",
+        "x-stoplight": {
+          "id": "2jckklf06yu8h"
+        },
+        "type": "object",
+        "description": "Probe-request Model being used to create a new probe or update a stored probe",
+        "properties": {
+          "commands": {
+            "type": "string",
+            "description": "The commands to move the probe at the planet"
+          }
+        },
+        "required": [
+          "commands"
+        ]
+      },
+      "probe": {
+        "title": "probe",
+        "x-stoplight": {
+          "id": "td4bzsoxwrt44"
+        },
+        "type": "object",
+        "description": "Probe Model being used to retrive a list os probes or a single probe",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The probe identification"
+          },
+          "positionX": {
+            "type": "integer",
+            "description": "The current position of probe at the X axis"
+          },
+          "positionY": {
+            "type": "integer",
+            "description": "The current position of probe at the Y axis"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "N",
+              "E",
+              "S",
+              "W"
+            ],
+            "description": "The current direction according the rose display"
+          }
+        },
+        "required": [
+          "id",
+          "positionX",
+          "positionY",
+          "direction"
+        ]
+      },
+      "probe-read": {
+        "title": "probe",
+        "x-stoplight": {
+          "id": "td4bzsoxwrt44"
+        },
+        "type": "object",
+        "description": "Probe Model being used to retrive a list os probes or a single probe",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The probe identification"
+          },
+          "positionX": {
+            "type": "integer",
+            "description": "The current position of probe at the X axis"
+          },
+          "positionY": {
+            "type": "integer",
+            "description": "The current position of probe at the Y axis"
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "N",
+              "E",
+              "S",
+              "W"
+            ],
+            "description": "The current direction according the rose display"
+          },
+          "planet": {
+            "$ref": "#/components/schemas/planet-read"
+          }
+        },
+        "required": [
+          "id",
+          "positionX",
+          "positionY",
+          "direction"
+        ],
+        "examples": []
+      },
+      "invalid-parameters": {
+        "title": "invalid-parameters",
+        "x-stoplight": {
+          "id": "e91qzt8nh9rb1"
+        },
+        "type": "object",
+        "description": "Model to manage invalid parameters for Bad Request responses",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason why parameter is invalid"
+          },
+          "type": {
+            "type": "string",
+            "description": "Parameter type",
+            "enum": [
+              "path",
+              "query",
+              "body",
+              "header"
+            ]
+          }
+        },
+        "required": [
+          "name",
+          "reason",
+          "type"
+        ]
+      },
+      "error-response": {
+        "title": "error-response",
+        "x-stoplight": {
+          "id": "at5n2qi0pfsd3"
+        },
+        "type": "object",
+        "description": "Model to manage error response messages",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "description": "HTTP status Code"
+          },
+          "title": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message",
+          "title"
+        ],
+        "examples": [
+          {
+            "message": "Not found message here",
+            "status": 404,
+            "title": "Not Found"
+          }
+        ]
+      },
+      "bad-request": {
+        "title": "bad-request",
+        "x-stoplight": {
+          "id": "udwh12zre7c1b"
+        },
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/error-response"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "invalidParams": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/invalid-parameters"
+                }
+              }
+            }
+          }
+        ],
+        "examples": [
+          {
+            "message": "KeyId header is missing",
+            "status": 400,
+            "title": "Bad request",
+            "invalidParams": [
+              {
+                "name": "KeyId",
+                "reason": "KeyId header is not found.",
+                "type": "header"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "securitySchemes": {
+      "APIkey": {
+        "name": "x-api-key",
+        "type": "apiKey",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "APIkey": []
+    }
+  ]
+}

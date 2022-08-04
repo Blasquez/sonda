@@ -10,7 +10,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 
 @Configuration
-@SecurityScheme(name="X-API-Key", type = SecuritySchemeType.APIKEY)
+@SecurityScheme(type = SecuritySchemeType.HTTP, name = "BasicAuth", scheme = "basic")
 public class SwaggerConfiguration {
 
 	@Value("${app.title}")
@@ -23,4 +23,6 @@ public class SwaggerConfiguration {
                         .description(applicationDescription)
                         .version(applicationVersion));
     }
+	
+	
 }

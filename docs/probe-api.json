@@ -53,32 +53,6 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bad-request"
-                },
-                "examples": {
-                  "x-api-key missing": {
-                    "value": {
-                      "message": "x-api-key header is missing",
-                      "status": 400,
-                      "title": "Bad request",
-                      "invalidParams": [
-                        {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -147,16 +121,16 @@
                   "$ref": "#/components/schemas/bad-request"
                 },
                 "examples": {
-                  "x-api-key missing": {
+                  "width param is missing": {
                     "value": {
-                      "message": "x-api-key header is missing",
+                      "message": "One or more param is missing",
                       "status": 400,
                       "title": "Bad request",
                       "invalidParams": [
                         {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
+                          "name": "width",
+                          "reason": "width param is not found.",
+                          "type": "body"
                         }
                       ]
                     }
@@ -265,32 +239,6 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bad-request"
-                },
-                "examples": {
-                  "x-api-key missing": {
-                    "value": {
-                      "message": "x-api-key header is missing",
-                      "status": 400,
-                      "title": "Bad request",
-                      "invalidParams": [
-                        {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -367,16 +315,16 @@
                   "$ref": "#/components/schemas/bad-request"
                 },
                 "examples": {
-                  "x-api-key missing": {
+                  "width param missing": {
                     "value": {
-                      "message": "x-api-key header is missing",
+                      "message": "One or more param is missing",
                       "status": 400,
                       "title": "Bad request",
                       "invalidParams": [
                         {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
+                          "name": "width",
+                          "reason": "width param is not found.",
+                          "type": "body"
                         }
                       ]
                     }
@@ -469,32 +417,6 @@
         "responses": {
           "204": {
             "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bad-request"
-                },
-                "examples": {
-                  "x-api-key missing": {
-                    "value": {
-                      "message": "x-api-key header is missing",
-                      "status": 400,
-                      "title": "Bad request",
-                      "invalidParams": [
-                        {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
           },
           "401": {
             "description": "Unauthorized",
@@ -615,32 +537,6 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bad-request"
-                },
-                "examples": {
-                  "x-api-key missing": {
-                    "value": {
-                      "message": "x-api-key header is missing",
-                      "status": 400,
-                      "title": "Bad request",
-                      "invalidParams": [
-                        {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -725,16 +621,16 @@
                   "$ref": "#/components/schemas/bad-request"
                 },
                 "examples": {
-                  "x-api-key missing": {
+                  "positionX param missing": {
                     "value": {
-                      "message": "x-api-key header is missing",
+                      "message": "One or more param is missing",
                       "status": 400,
                       "title": "Bad request",
                       "invalidParams": [
                         {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
+                          "name": "positionX",
+                          "reason": "positionX param is not found.",
+                          "type": "body"
                         }
                       ]
                     }
@@ -858,16 +754,16 @@
                   "$ref": "#/components/schemas/bad-request"
                 },
                 "examples": {
-                  "x-api-key missing": {
+                  "positionX param missing": {
                     "value": {
-                      "message": "x-api-key header is missing",
+                      "message": "One or more param is missing",
                       "status": 400,
                       "title": "Bad request",
                       "invalidParams": [
                         {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
+                          "name": "positionX",
+                          "reason": "positionX param is not found.",
+                          "type": "body"
                         }
                       ]
                     }
@@ -968,6 +864,70 @@
                 "description": "The endpoint to retrieve all probes of a planet"
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "planet param missing": {
+                    "value": {
+                      "message": "One or more param is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "planet",
+                          "reason": "planet param is not found.",
+                          "type": "body"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "description": "Create a list of probes and the planet",
@@ -1064,32 +1024,6 @@
               }
             }
           },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bad-request"
-                },
-                "examples": {
-                  "x-api-key missing": {
-                    "value": {
-                      "message": "x-api-key header is missing",
-                      "status": 400,
-                      "title": "Bad request",
-                      "invalidParams": [
-                        {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -1166,16 +1100,16 @@
                   "$ref": "#/components/schemas/bad-request"
                 },
                 "examples": {
-                  "x-api-key missing": {
+                  "commands param missing": {
                     "value": {
-                      "message": "x-api-key header is missing",
+                      "message": "One or more param is missing",
                       "status": 400,
                       "title": "Bad request",
                       "invalidParams": [
                         {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
+                          "name": "commands",
+                          "reason": "commands param is not found.",
+                          "type": "body"
                         }
                       ]
                     }
@@ -1269,32 +1203,6 @@
         "responses": {
           "204": {
             "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/bad-request"
-                },
-                "examples": {
-                  "x-api-key missing": {
-                    "value": {
-                      "message": "x-api-key header is missing",
-                      "status": 400,
-                      "title": "Bad request",
-                      "invalidParams": [
-                        {
-                          "name": "x-api-key",
-                          "reason": "x-api-key header is not found.",
-                          "type": "header"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
           },
           "401": {
             "description": "Unauthorized",
@@ -1703,10 +1611,9 @@
       }
     },
     "securitySchemes": {
-      "APIkey": {
-        "name": "X-API-Key",
-        "type": "apiKey",
-        "in": "header"
+      "Authorization": {
+        "type": "http",
+        "scheme": "basic"
       }
     }
   },

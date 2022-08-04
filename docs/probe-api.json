@@ -130,29 +130,6 @@
         "responses": {
           "201": {
             "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string",
-                      "description": "The planet identification has created"
-                    }
-                  },
-                  "required": [
-                    "id"
-                  ]
-                },
-                "examples": {
-                  "Planet 10x10 created": {
-                    "value": {
-                      "id": "xxx-xxx-xxx-xxx"
-                    }
-                  }
-                }
-              }
-            },
             "headers": {
               "Location": {
                 "schema": {
@@ -724,6 +701,125 @@
         },
         "operationId": "get-planets-planetId-probes",
         "description": "Retrieves all probes of a planet"
+      },
+      "post": {
+        "summary": "",
+        "operationId": "post-planets-planetId-probes",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "The endpoint to retrieve the probe by id"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad-request"
+                },
+                "examples": {
+                  "x-api-key missing": {
+                    "value": {
+                      "message": "x-api-key header is missing",
+                      "status": 400,
+                      "title": "Bad request",
+                      "invalidParams": [
+                        {
+                          "name": "x-api-key",
+                          "reason": "x-api-key header is not found.",
+                          "type": "header"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "x-api-key is not valid": {
+                    "value": {
+                      "message": "The x-api-key value is not valid",
+                      "status": 401,
+                      "title": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "Planet not found": {
+                    "value": {
+                      "message": "Planet with that ID xxx-xxx-xxxx does not exist",
+                      "status": 404,
+                      "title": "Not Found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error-response"
+                },
+                "examples": {
+                  "500": {
+                    "value": {
+                      "message": "An unexpected error has occurred",
+                      "status": 500,
+                      "title": "Internal Server Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new probe at the planet id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/probe-create"
+              },
+              "examples": {
+                "Probe at planet with Id xxx-xxx-xxx-xxx": {
+                  "value": {
+                    "positionX": 10,
+                    "positionY": 10,
+                    "direction": "N"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/planets/{planetId}/probes/{probeId}": {
@@ -1608,7 +1704,7 @@
     },
     "securitySchemes": {
       "APIkey": {
-        "name": "x-api-key",
+        "name": "X-API-Key",
         "type": "apiKey",
         "in": "header"
       }
